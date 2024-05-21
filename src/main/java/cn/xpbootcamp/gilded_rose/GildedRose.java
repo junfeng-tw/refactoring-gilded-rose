@@ -11,32 +11,15 @@ class GildedRose {
         for (Item item : items) {
             switch (item.name) {
                 case "Aged Brie":
-                    if (item.quality < 50) {
-                        item.quality += 1;
-                    }
+                    updateAgedBrie(item);
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    if (item.quality < 50) {
-                        item.quality += 1;
-                        if (item.sell_in < 11) {
-                            if (item.quality < 50) {
-                                item.quality += 1;
-                            }
-                        }
-
-                        if (item.sell_in < 6) {
-                            if (item.quality < 50) {
-                                item.quality += 1;
-                            }
-                        }
-                    }
+                    updateBackstagePass(item);
                     break;
                 case "Sulfuras, Hand of Ragnaros":
                     break;
                 default:
-                    if (item.quality > 0) {
-                        item.quality -= 1;
-                    }
+                    updateNormalItem(item);
                     break;
             }
 
@@ -47,22 +30,63 @@ class GildedRose {
             if (item.sell_in < 0) {
                 switch (item.name) {
                     case "Aged Brie":
-                        if (item.quality < 50) {
-                            item.quality += 1;
-                        }
+                        updateAgredBrieAfterCheckSellIn(item);
                         break;
                     case "Backstage passes to a TAFKAL80ETC concert":
-                        item.quality = 0;
+                        updateBackStagePassAfterCheckSellIn(item);
                         break;
                     case "Sulfuras, Hand of Ragnaros":
                         break;
                     default:
-                        if (item.quality > 0) {
-                            item.quality -= 1;
-                        }
+                        updateNormalItemAfterCheckSellIn(item);
                         break;
                 }
             }
+        }
+    }
+
+    private void updateNormalItemAfterCheckSellIn(Item item) {
+        if (item.quality > 0) {
+            item.quality -= 1;
+        }
+    }
+
+    private void updateBackStagePassAfterCheckSellIn(Item item) {
+        item.quality = 0;
+    }
+
+    private void updateAgredBrieAfterCheckSellIn(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+        }
+    }
+
+    private void updateNormalItem(Item item) {
+        if (item.quality > 0) {
+            item.quality -= 1;
+        }
+    }
+
+    private void updateBackstagePass(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+            if (item.sell_in < 11) {
+                if (item.quality < 50) {
+                    item.quality += 1;
+                }
+            }
+
+            if (item.sell_in < 6) {
+                if (item.quality < 50) {
+                    item.quality += 1;
+                }
+            }
+        }
+    }
+
+    private void updateAgedBrie(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
         }
     }
 }
